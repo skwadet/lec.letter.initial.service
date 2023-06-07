@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package letter_initial_api;
+option go_package = "github.com/ecosafety/lec.letter.initial.service/api/letter_initial_api;letter_initial_api";
+
+service LetterInitialService {
+  rpc AddLetter (AddLetterRequest) returns (AddLetterResponse) {}
+  rpc GetLetter (GetLetterRequest) returns (GetLetterResponse) {}
+  rpc RenameLetter (RenameLetterRequest) returns (RenameLetterResponse) {}
+  rpc DeleteLetter (RenameLetterRequest) returns (DeleteLetterResponse) {}
+
+
+  rpc AddObjective (AddObjectiveRequest) returns (AddObjectiveResponse) {}
+  rpc GetObjective (GetObjectiveRequest) returns (GetObjectiveResponse) {}
+  rpc GetObjectiveList (GetObjectiveListRequest) returns (GetObjectiveListResponse) {}
+  rpc RenameObjective (RenameObjectiveRequest) returns (RenameObjectiveResponse) {}
+  rpc ChangeObjectiveOrderNumber (ChangeObjectiveOrderNumberRequest) returns (ChangeObjectiveOrderNumberResponse) {}
+  rpc DeleteObjective (DeleteObjectiveRequest) returns (DeleteObjectiveResponse) {}
+
+
+  rpc AddPurpose (AddPurposeRequest) returns (AddPurposeResponse) {}
+  rpc GetPurpose (GetPurposeRequest) returns (GetPurposeResponse) {}
+  rpc GetPurposeList (GetPurposeListRequest) returns (GetPurposeListResponse) {}
+  rpc RenamePurpose (RenamePurposeRequest) returns (RenamePurposeResponse) {}
+  rpc ChangePurposeOrderNumber (ChangePurposeOrderNumberRequest) returns (ChangePurposeOrderNumberResponse) {}
+  rpc DeletePurpose (DeletePurposeRequest) returns (DeletePurposeResponse) {}
+}
