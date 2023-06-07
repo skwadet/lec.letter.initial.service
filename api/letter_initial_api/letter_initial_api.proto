@@ -6,8 +6,9 @@ option go_package = "github.com/ecosafety/lec.letter.initial.service/api/letter_
 service LetterInitialService {
   rpc AddLetter (AddLetterRequest) returns (AddLetterResponse) {}
   rpc GetLetter (GetLetterRequest) returns (GetLetterResponse) {}
+  rpc GetFullLetter (GetFullLetterRequest) returns (GetFullLetterResponse) {}
   rpc RenameLetter (RenameLetterRequest) returns (RenameLetterResponse) {}
-  rpc DeleteLetter (RenameLetterRequest) returns (DeleteLetterResponse) {}
+  rpc DeleteLetter (DeleteLetterRequest) returns (DeleteLetterResponse) {}
 
 
   rpc AddObjective (AddObjectiveRequest) returns (AddObjectiveResponse) {}
@@ -24,4 +25,209 @@ service LetterInitialService {
   rpc RenamePurpose (RenamePurposeRequest) returns (RenamePurposeResponse) {}
   rpc ChangePurposeOrderNumber (ChangePurposeOrderNumberRequest) returns (ChangePurposeOrderNumberResponse) {}
   rpc DeletePurpose (DeletePurposeRequest) returns (DeletePurposeResponse) {}
+}
+
+// Letter use cases
+message LetterData {
+  string id = 1;
+  string submissionId = 2;
+  string createdAt = 3;
+  optional string additionalInfo = 4;
+}
+
+
+message AddLetterRequest {
+  string submissionId = 1;
+}
+
+message AddLetterResponse {
+  string message = 1;
+  string data = 2;
+}
+
+
+message GetLetterRequest {
+  string submissionId = 1;
+}
+
+message GetLetterResponse {
+  string message = 1;
+  LetterData data = 2;
+}
+
+
+message GetFullLetterRequest {
+  string submissionId = 1;
+}
+
+message GetFullLetterResponse {
+  string message = 1;
+  GetFullLetterResponseData data = 2;
+}
+
+message GetFullLetterResponseData {
+  LetterData letter = 1;
+  repeated ObjectiveData objectives = 2;
+}
+
+
+message RenameLetterRequest {
+  string submissionId = 1;
+  string newInfo = 2;
+}
+
+message RenameLetterResponse {
+  string message = 1;
+  string data = 2;
+}
+
+
+message DeleteLetterRequest {
+  string submissionId = 1;
+}
+
+message DeleteLetterResponse {
+  string message = 1;
+}
+
+
+// Objective use cases
+message ObjectiveData {
+  string id = 1;
+  int32 orderNumber = 2;
+  string letterId = 3;
+  string title = 4;
+  string createdAt = 5;
+}
+
+message AddObjectiveRequest {
+  string letterId = 1;
+  string title = 2;
+}
+
+message AddObjectiveResponse {
+  string message = 1;
+  string data = 2;
+}
+
+
+message GetObjectiveRequest {
+  string id = 1;
+}
+
+message GetObjectiveResponse {
+  string message = 1;
+  ObjectiveData data = 2;
+}
+
+
+message GetObjectiveListRequest {
+  string letterId = 1;
+}
+
+message GetObjectiveListResponse {
+  string message = 1;
+  repeated ObjectiveData data = 2;
+}
+
+
+message RenameObjectiveRequest {
+  string id = 1;
+  string newTitle = 2;
+}
+
+message RenameObjectiveResponse {
+  string message = 1;
+  string data = 2;
+}
+
+
+message ChangeObjectiveOrderNumberRequest {
+  string id = 1;
+  int32 newOrderNumber = 2;
+}
+
+message ChangeObjectiveOrderNumberResponse {
+  string message = 1;
+  string data = 2;
+}
+
+
+message DeleteObjectiveRequest {
+  string id = 1;
+}
+
+message DeleteObjectiveResponse {
+  string message = 1;
+}
+
+
+// Purpose use cases
+message PurposeData {
+  string id = 1;
+  int32 orderNumber = 2;
+  string letterId = 3;
+  string title = 4;
+  string createdAt = 5;
+}
+
+message AddPurposeRequest {
+  string letterId = 1;
+  string title = 2;
+}
+
+message AddPurposeResponse {
+  string message = 1;
+  string data = 2;
+}
+
+
+message GetPurposeRequest {
+  string id = 1;
+}
+
+message GetPurposeResponse {
+  string message = 1;
+  PurposeData data = 2;
+}
+
+
+message GetPurposeListRequest {
+  string letterId = 1;
+}
+
+message GetPurposeListResponse {
+  string message = 1;
+  repeated PurposeData data = 2;
+}
+
+
+message RenamePurposeRequest {
+  string id = 1;
+  string newTitle = 2;
+}
+
+message RenamePurposeResponse {
+  string message = 1;
+  string data = 2;
+}
+
+
+message ChangePurposeOrderNumberRequest {
+  string id = 1;
+  int32 newOrderNumber = 2;
+}
+
+message ChangePurposeOrderNumberResponse {
+  string message = 1;
+  string data = 2;
+}
+
+
+message DeletePurposeRequest {
+  string id = 1;
+}
+
+message DeletePurposeResponse {
+  string message = 1;
 }

@@ -36,15 +36,15 @@ func (s *Storage) GetList(ctx context.Context) ([]*domain.Objective, error) {
 	return outputList, nil
 }
 
-func (s *Storage) Add(ctx context.Context, req *domain.Objective, orderNumber int) error {
-	if _, err := s.dbPool.Exec(ctx, addQ, req.Id, orderNumber, req.LetterId, req.Title, req.CreatedAt); err != nil {
+func (s *Storage) Add(ctx context.Context, req *domain.Objective) error {
+	if _, err := s.dbPool.Exec(ctx, addQ, req.Id, req.OrderNumber, req.LetterId, req.Title, req.CreatedAt); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (s *Storage) ChangeOrderNumber(ctx context.Context, id uuid.UUID, newOrderNumber string) error {
+func (s *Storage) ChangeOrderNumber(ctx context.Context, id uuid.UUID, newOrderNumber int) error {
 	if _, err := s.dbPool.Exec(ctx, changeOrderNumberQ, newOrderNumber, id); err != nil {
 		return err
 	}

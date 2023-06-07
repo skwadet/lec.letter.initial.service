@@ -105,7 +105,7 @@ func (c *Cache) Rename(ctx context.Context, id uuid.UUID, newTitle string) error
 	return nil
 }
 
-func (c *Cache) ChangeOrder(ctx context.Context, id uuid.UUID, newOrderNumber int) error {
+func (c *Cache) ChangeOrderNumber(ctx context.Context, id uuid.UUID, newOrderNumber int) error {
 	c.Lock()
 
 	defer c.Unlock()

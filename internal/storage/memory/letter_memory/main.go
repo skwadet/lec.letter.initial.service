@@ -56,7 +56,7 @@ func (c *Cache) Add(_ context.Context, letter *domain.Letter) error {
 	return nil
 }
 
-func (c *Cache) Rename(ctx context.Context, submissionId uuid.UUID, newInfo *string) error {
+func (c *Cache) Rename(ctx context.Context, submissionId uuid.UUID, newInfo string) error {
 	c.Lock()
 
 	defer c.Unlock()
@@ -70,7 +70,7 @@ func (c *Cache) Rename(ctx context.Context, submissionId uuid.UUID, newInfo *str
 		Id:             letterToUpdate.Id,
 		SubmissionId:   letterToUpdate.SubmissionId,
 		CreatedAt:      letterToUpdate.CreatedAt,
-		AdditionalInfo: newInfo,
+		AdditionalInfo: &newInfo,
 	}
 
 	return nil
