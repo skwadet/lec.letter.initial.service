@@ -52,5 +52,6 @@ func mapLetterResponseDataToProto(_ context.Context,
 	return &pb.GetFullLetterResponseData{
 		Letter:     letter,
 		Objectives: objectives,
+		Purposes:   purposes,
 	}, nil
 }

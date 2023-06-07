@@ -68,6 +68,7 @@ message GetFullLetterResponse {
 message GetFullLetterResponseData {
   LetterData letter = 1;
   repeated ObjectiveData objectives = 2;
+  repeated PurposeData purposes = 3;
 }
 
 
