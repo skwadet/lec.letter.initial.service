@@ -6,26 +6,26 @@ services:
       context: ./
       args:
         ENV_STRING: |
-          DB_PORT=
-          DB_HOST=
-          DB_USER=
-          DB_PASSWORD=
-          DB_NAME=
-    container_name: manual_manager_backend
+          DB_PORT=5432
+          DB_HOST=lec_letter_initial_db
+          DB_USER=postgres
+          DB_PASSWORD=postgres
+          DB_NAME=postgres
+    container_name: lec_letter_initial_service
     restart: unless-stopped
     ports:
       - "6501:80"
 
-  manual_module_db:
+  lec_letter_initial_db:
     image: postgres:11.5-alpine
-    container_name: manual_module_db
+    container_name: lec_letter_initial_db
     ports:
       - "16302:5432"
     volumes:
-      - manual_module_postgres_db:/var/lib/posgresql/data/
+      - lec_letter_initial_postgres_db:/var/lib/posgresql/data/
 
 volumes:
-  manual_module_postgres_db:
+  lec_letter_initial_postgres_db:
 
 
 networks:
