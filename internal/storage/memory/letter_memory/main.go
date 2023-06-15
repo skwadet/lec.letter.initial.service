@@ -51,7 +51,7 @@ func (c *Cache) Add(_ context.Context, letter *domain.Letter) error {
 
 	defer c.Unlock()
 
-	c.letterMap[letter.Id] = letter
+	c.letterMap[letter.SubmissionId] = letter
 
 	return nil
 }

@@ -2,7 +2,6 @@ package domain
 
 import (
 	"fmt"
-	"github.com/ecosafety/lec.letter.initial.service/internal/utils"
 	"github.com/google/uuid"
 	"time"
 )
@@ -41,7 +40,7 @@ func (l *Letter) GetDirection() *string {
 	welcomePart := fmt.Sprintf("%s\n Главный исследователь\n %s\n %s",
 		*l.LetterResearchInfo.CommitteeChairmanTitleTo,
 		*l.LetterResearchInfo.MainResearcher,
-		utils.OuterFormatDate(l.CreatedAt),
+		l.CreatedAt.String(),
 	)
 
 	return &welcomePart

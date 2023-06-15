@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	getListQ = "SELECT id, title, created_at, additional_info FROM letters"
+	getListQ = "SELECT id, submission_id, created_at, additional_info FROM letters"
 	addQ     = "INSERT INTO letters (id, submission_id, created_at, additional_info) VALUES($1, $2, $3, $4)"
 	renameQ  = "UPDATE letters SET additional_info = $1 WHERE id = $2"
 	deleteQ  = "DELETE FROM letters WHERE id = $1"

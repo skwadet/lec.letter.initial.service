@@ -31,7 +31,7 @@ func (s *Service) AddLetter(ctx context.Context, req *pb.AddLetterRequest) (*pb.
 
 	return &pb.AddLetterResponse{
 		Message: "Письмо успешно добавлено!",
-		Data:    letterId.String(),
+		Data:    letter.SubmissionId.String(),
 	}, nil
 }
 
@@ -105,12 +105,12 @@ func (s *Service) GetFullLetter(ctx context.Context, req *pb.GetFullLetterReques
 }
 
 func (s *Service) RenameLetter(ctx context.Context, req *pb.RenameLetterRequest) (*pb.RenameLetterResponse, error) {
-	id, err := uuid.Parse(req.GetSubmissionId())
+	sId, err := uuid.Parse(req.GetSubmissionId())
 	if err != nil {
 		return nil, err
 	}
 
-	letter, gErr := s.letterMemCache.Get(ctx, id)
+	letter, gErr := s.letterMemCache.Get(ctx, sId)
 	if gErr != nil {
 		return nil, gErr
 	}
@@ -122,14 +122,14 @@ func (s *Service) RenameLetter(ctx context.Context, req *pb.RenameLetterRequest)
 		return nil, pgErr
 	}
 
-	memErr := s.letterMemCache.Rename(ctx, letterId, req.GetNewInfo())
+	memErr := s.letterMemCache.Rename(ctx, letter.SubmissionId, req.GetNewInfo())
 	if memErr != nil {
 		return nil, memErr
 	}
 
 	return &pb.RenameLetterResponse{
 		Message: "Письмо успешно обновлено!",
-		Data:    letter.Id.String(),
+		Data:    letter.SubmissionId.String(),
 	}, nil
 }
 
