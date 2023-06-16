@@ -57,7 +57,7 @@ func (c *Cache) GetListByLetterId(ctx context.Context, letterId uuid.UUID) ([]*d
 	var objectives []*domain.Objective
 	ids := c.relationMap[letterId]
 
-	if ids != nil {
+	if ids == nil {
 		return nil, errors.New("objective ids not found")
 	}
 

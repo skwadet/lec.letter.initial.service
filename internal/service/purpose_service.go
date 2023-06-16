@@ -33,7 +33,7 @@ func (s *Service) AddPurpose(ctx context.Context, req *pb.AddPurposeRequest) (*p
 			maxOrderNumber = elem.OrderNumber
 		}
 	}
-	purpose.OrderNumber = maxOrderNumber
+	purpose.OrderNumber = maxOrderNumber + 1
 
 	pgErr := s.purposeStorage.Add(ctx, purpose)
 	if pgErr != nil {

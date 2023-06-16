@@ -12,7 +12,7 @@ import (
 
 const (
 	getListQ           = "SELECT id, order_number, letter_id, title, created_at FROM objectives"
-	addQ               = "INSERT INTO objectives (id, order_number, letter_id, title, created_at) VALUES($1, $2, $3, $4)"
+	addQ               = "INSERT INTO objectives (id, order_number, letter_id, title, created_at) VALUES($1, $2, $3, $4, $5)"
 	renameQ            = "UPDATE objectives SET title = $1 WHERE id = $2"
 	changeOrderNumberQ = "UPDATE objectives SET order_number = $1 WHERE id = $2"
 	deleteQ            = "DELETE FROM objectives WHERE id = $1"

@@ -19,9 +19,11 @@ type Cache struct {
 
 func NewCache() *Cache {
 	purposeMap := make(map[uuid.UUID]*domain.Purpose)
+	relationMap := make(map[uuid.UUID][]uuid.UUID)
 
 	cache := Cache{
-		purposeMap: purposeMap,
+		purposeMap:  purposeMap,
+		relationMap: relationMap,
 	}
 
 	return &cache
@@ -55,7 +57,7 @@ func (c *Cache) GetListByLetterId(ctx context.Context, letterId uuid.UUID) ([]*d
 	var purposes []*domain.Purpose
 	ids := c.relationMap[letterId]
 
-	if ids != nil {
+	if ids == nil {
 		return nil, errors.New("purpose ids not found")
 	}
 

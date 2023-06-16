@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"github.com/ecosafety/lec.letter.initial.service/internal/utils"
 
 	pb "github.com/ecosafety/lec.letter.initial.service/internal/pb/letter_initial_api"
 
@@ -36,11 +37,12 @@ func mapObjectiveListToProto(ctx context.Context, objectives []*domain.Objective
 	return mappedObjectives, nil
 }
 
-func mapObjectiveToProto(_ context.Context, letter *domain.Objective) (*pb.ObjectiveData, error) {
+func mapObjectiveToProto(_ context.Context, objective *domain.Objective) (*pb.ObjectiveData, error) {
 	return &pb.ObjectiveData{
-		Id:          letter.Id.String(),
-		OrderNumber: int32(letter.OrderNumber),
-		LetterId:    letter.LetterId.String(),
-		Title:       letter.Title,
+		Id:          objective.Id.String(),
+		OrderNumber: int32(objective.OrderNumber),
+		LetterId:    objective.LetterId.String(),
+		Title:       objective.Title,
+		CreatedAt:   utils.InnerFormatTime(objective.CreatedAt),
 	}, nil
 }

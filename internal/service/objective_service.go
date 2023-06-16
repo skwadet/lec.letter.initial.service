@@ -33,7 +33,7 @@ func (s *Service) AddObjective(ctx context.Context, req *pb.AddObjectiveRequest)
 			maxOrderNumber = elem.OrderNumber
 		}
 	}
-	objective.OrderNumber = maxOrderNumber
+	objective.OrderNumber = maxOrderNumber + 1
 
 	pgErr := s.objectiveStorage.Add(ctx, objective)
 	if pgErr != nil {
