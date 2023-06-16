@@ -5,42 +5,18 @@ import (
 	"github.com/google/uuid"
 )
 
-// SortPurposes Ожидается малое кол-во элементов, смысла писать быструю сортировку нет, пользуемся пузырьковой
 func SortPurposes(purposes []*domain.Purpose) []*domain.Purpose {
-	return bubbleSortPurposes(purposes)
-}
-
-func bubbleSortPurposes(purposes []*domain.Purpose) []*domain.Purpose {
-	sortedPurposes := make([]*domain.Purpose, len(purposes))
-	copy(sortedPurposes, purposes)
-
-	// Всё просто, проходим по массиву, меняя местами соседние элементы, если L < R, до тех пор, пока всё не отсортируется
-	for i := 0; i < len(sortedPurposes)-1; i++ {
-		for j := 0; j < len(sortedPurposes)-i-1; j++ {
-			if sortedPurposes[j].OrderNumber > sortedPurposes[j+1].OrderNumber {
-				sortedPurposes[j], sortedPurposes[j+1] = sortedPurposes[j+1], sortedPurposes[j]
-			}
-		}
-	}
-
-	return sortedPurposes
+	return quickSortLetterAdditions(purposes)
 }
 
 func ChangePurposeOrderNumber(purposes []*domain.Purpose, newOrderNumber int, id uuid.UUID) []*domain.Purpose {
-	var purposeToChange *domain.Purpose
-	index := newOrderNumber - 1
+	index := ResolveLetterAdditionIndex(purposes, newOrderNumber)
 
 	purposes = SortPurposes(purposes)
 
-	for _, elem := range purposes {
-		if elem.Id == id {
-			purposeToChange = elem
-			purposes = append(purposes[:purposeToChange.OrderNumber-1], purposes[purposeToChange.OrderNumber:]...)
-		}
-	}
+	purposes, poppedPurpose := PopLetterAddition(purposes, id)
 
-	purposes = append(purposes[:index+1], purposes[index:]...)
-	purposes[index] = purposeToChange
+	purposes = InsertLetterAddition(purposes, index, poppedPurpose)
 
 	return purposes
 }

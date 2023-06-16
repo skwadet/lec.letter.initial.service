@@ -12,3 +12,11 @@ type Objective struct {
 	Title       string
 	CreatedAt   time.Time
 }
+
+func (o *Objective) GetId() uuid.UUID {
+	return o.Id
+}
+
+func (o *Objective) GetOrderNumber() int {
+	return o.OrderNumber
+}
