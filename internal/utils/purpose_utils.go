@@ -2,6 +2,7 @@ package utils
 
 import (
 	"github.com/ecosafety/lec.letter.initial.service/pkg/domain"
+	"github.com/google/uuid"
 )
 
 // SortPurposes Ожидается малое кол-во элементов, смысла писать быструю сортировку нет, пользуемся пузырьковой
@@ -23,4 +24,23 @@ func bubbleSortPurposes(purposes []*domain.Purpose) []*domain.Purpose {
 	}
 
 	return sortedPurposes
+}
+
+func ChangePurposeOrderNumber(purposes []*domain.Purpose, newOrderNumber int, id uuid.UUID) []*domain.Purpose {
+	var purposeToChange *domain.Purpose
+	index := newOrderNumber - 1
+
+	purposes = SortPurposes(purposes)
+
+	for _, elem := range purposes {
+		if elem.Id == id {
+			purposeToChange = elem
+			purposes = append(purposes[:purposeToChange.OrderNumber-1], purposes[purposeToChange.OrderNumber:]...)
+		}
+	}
+
+	purposes = append(purposes[:index+1], purposes[index:]...)
+	purposes[index] = purposeToChange
+
+	return purposes
 }

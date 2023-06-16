@@ -11,8 +11,6 @@ import (
 )
 
 func (s *Service) AddPurpose(ctx context.Context, req *pb.AddPurposeRequest) (*pb.AddPurposeResponse, error) {
-	var maxOrderNumber int
-
 	purpose, mErr := mapAddPurposeRequestFromProto(ctx, req)
 	if mErr != nil {
 		return nil, mErr
@@ -28,12 +26,7 @@ func (s *Service) AddPurpose(ctx context.Context, req *pb.AddPurposeRequest) (*p
 		return nil, gMemErr
 	}
 
-	for _, elem := range purposes {
-		if elem.OrderNumber < maxOrderNumber {
-			maxOrderNumber = elem.OrderNumber
-		}
-	}
-	purpose.OrderNumber = maxOrderNumber + 1
+	purpose.OrderNumber = len(purposes) + 1
 
 	pgErr := s.purposeStorage.Add(ctx, purpose)
 	if pgErr != nil {
@@ -147,14 +140,9 @@ func (s *Service) ChangePurposeOrderNumber(ctx context.Context,
 		return nil, glErr
 	}
 
-	for _, elem := range purposes {
-		if elem.Id == id {
-			purpose = elem
-			elem.OrderNumber = int(req.GetNewOrderNumber())
-		}
-	}
+	newOrderNumber := int(req.GetNewOrderNumber())
 
-	purposes = utils.SortPurposes(purposes)
+	purposes = utils.ChangePurposeOrderNumber(purposes, newOrderNumber, id)
 
 	for index, elem := range purposes {
 		eId := elem.Id

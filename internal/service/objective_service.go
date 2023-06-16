@@ -11,8 +11,6 @@ import (
 )
 
 func (s *Service) AddObjective(ctx context.Context, req *pb.AddObjectiveRequest) (*pb.AddObjectiveResponse, error) {
-	var maxOrderNumber int
-
 	objective, mErr := mapAddObjectiveRequestFromProto(ctx, req)
 	if mErr != nil {
 		return nil, mErr
@@ -28,12 +26,7 @@ func (s *Service) AddObjective(ctx context.Context, req *pb.AddObjectiveRequest)
 		return nil, gMemErr
 	}
 
-	for _, elem := range objectives {
-		if elem.OrderNumber < maxOrderNumber {
-			maxOrderNumber = elem.OrderNumber
-		}
-	}
-	objective.OrderNumber = maxOrderNumber + 1
+	objective.OrderNumber = len(objectives) + 1
 
 	pgErr := s.objectiveStorage.Add(ctx, objective)
 	if pgErr != nil {
@@ -147,14 +140,9 @@ func (s *Service) ChangeObjectiveOrderNumber(ctx context.Context,
 		return nil, glErr
 	}
 
-	for _, elem := range objectives {
-		if elem.Id == id {
-			objective = elem
-			elem.OrderNumber = int(req.GetNewOrderNumber())
-		}
-	}
+	newOrderNumber := int(req.GetNewOrderNumber())
 
-	objectives = utils.SortObjectives(objectives)
+	objectives = utils.ChangeObjectiveOrderNumber(objectives, newOrderNumber, id)
 
 	for index, elem := range objectives {
 		eId := elem.Id
