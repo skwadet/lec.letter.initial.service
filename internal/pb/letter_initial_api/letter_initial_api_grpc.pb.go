@@ -39,6 +39,7 @@ type LetterInitialServiceClient interface {
 	RenamePurpose(ctx context.Context, in *RenamePurposeRequest, opts ...grpc.CallOption) (*RenamePurposeResponse, error)
 	ChangePurposeOrderNumber(ctx context.Context, in *ChangePurposeOrderNumberRequest, opts ...grpc.CallOption) (*ChangePurposeOrderNumberResponse, error)
 	DeletePurpose(ctx context.Context, in *DeletePurposeRequest, opts ...grpc.CallOption) (*DeletePurposeResponse, error)
+	GenerateLetter(ctx context.Context, in *GenerateLetterRequest, opts ...grpc.CallOption) (*GenerateLetterResponse, error)
 }
 
 type letterInitialServiceClient struct {
@@ -202,6 +203,15 @@ func (c *letterInitialServiceClient) DeletePurpose(ctx context.Context, in *Dele
 	return out, nil
 }
 
+func (c *letterInitialServiceClient) GenerateLetter(ctx context.Context, in *GenerateLetterRequest, opts ...grpc.CallOption) (*GenerateLetterResponse, error) {
+	out := new(GenerateLetterResponse)
+	err := c.cc.Invoke(ctx, "/letter_initial_api.LetterInitialService/GenerateLetter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LetterInitialServiceServer is the server API for LetterInitialService service.
 // All implementations must embed UnimplementedLetterInitialServiceServer
 // for forward compatibility
@@ -223,6 +233,7 @@ type LetterInitialServiceServer interface {
 	RenamePurpose(context.Context, *RenamePurposeRequest) (*RenamePurposeResponse, error)
 	ChangePurposeOrderNumber(context.Context, *ChangePurposeOrderNumberRequest) (*ChangePurposeOrderNumberResponse, error)
 	DeletePurpose(context.Context, *DeletePurposeRequest) (*DeletePurposeResponse, error)
+	GenerateLetter(context.Context, *GenerateLetterRequest) (*GenerateLetterResponse, error)
 	mustEmbedUnimplementedLetterInitialServiceServer()
 }
 
@@ -280,6 +291,9 @@ func (UnimplementedLetterInitialServiceServer) ChangePurposeOrderNumber(context.
 }
 func (UnimplementedLetterInitialServiceServer) DeletePurpose(context.Context, *DeletePurposeRequest) (*DeletePurposeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePurpose not implemented")
+}
+func (UnimplementedLetterInitialServiceServer) GenerateLetter(context.Context, *GenerateLetterRequest) (*GenerateLetterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GenerateLetter not implemented")
 }
 func (UnimplementedLetterInitialServiceServer) mustEmbedUnimplementedLetterInitialServiceServer() {}
 
@@ -600,6 +614,24 @@ func _LetterInitialService_DeletePurpose_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LetterInitialService_GenerateLetter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GenerateLetterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LetterInitialServiceServer).GenerateLetter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/letter_initial_api.LetterInitialService/GenerateLetter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LetterInitialServiceServer).GenerateLetter(ctx, req.(*GenerateLetterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LetterInitialService_ServiceDesc is the grpc.ServiceDesc for LetterInitialService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -674,6 +706,10 @@ var LetterInitialService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeletePurpose",
 			Handler:    _LetterInitialService_DeletePurpose_Handler,
+		},
+		{
+			MethodName: "GenerateLetter",
+			Handler:    _LetterInitialService_GenerateLetter_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

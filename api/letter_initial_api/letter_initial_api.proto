@@ -25,6 +25,8 @@ service LetterInitialService {
   rpc RenamePurpose (RenamePurposeRequest) returns (RenamePurposeResponse) {}
   rpc ChangePurposeOrderNumber (ChangePurposeOrderNumberRequest) returns (ChangePurposeOrderNumberResponse) {}
   rpc DeletePurpose (DeletePurposeRequest) returns (DeletePurposeResponse) {}
+
+  rpc GenerateLetter (GenerateLetterRequest) returns (GenerateLetterResponse) {}
 }
 
 // Letter use cases
@@ -231,4 +233,39 @@ message DeletePurposeRequest {
 
 message DeletePurposeResponse {
   string message = 1;
+}
+
+// Generator use cases
+message ResearchInfoData {
+  string fullProtocol = 1;
+  optional string sponsor = 2;
+  optional string contractor = 3;
+  optional string drugName = 4;
+  optional string manufacturer = 5;
+  optional string mainResearcher = 6;
+  optional string mainResearcherInitials = 7;
+  optional string chairmanWithoutSurname = 8;
+  optional string chairmanInitialsTitleTo = 9;
+}
+
+message DocumentData {
+  int32 orderNumber = 1;
+  string title = 2;
+}
+
+message OrganizationHeaderData {
+  string credits = 1;
+  string logoUrl = 2;
+}
+
+message GenerateLetterRequest {
+  string submissionId = 1;
+  ResearchInfoData researchInfo = 2;
+  OrganizationHeaderData organizationHeader = 3;
+  repeated DocumentData documentList = 4;
+}
+
+message GenerateLetterResponse {
+  string message = 1;
+  bytes data = 2;
 }
