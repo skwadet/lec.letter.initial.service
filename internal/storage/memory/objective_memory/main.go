@@ -3,7 +3,6 @@ package objective_memory
 import (
 	"context"
 	"errors"
-
 	"github.com/ecosafety/lec.letter.initial.service/pkg/domain"
 
 	"github.com/google/uuid"

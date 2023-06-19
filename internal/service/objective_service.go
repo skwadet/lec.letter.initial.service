@@ -2,9 +2,8 @@ package service
 
 import (
 	"context"
-	"github.com/ecosafety/lec.letter.initial.service/internal/utils"
-
 	pb "github.com/ecosafety/lec.letter.initial.service/internal/pb/letter_initial_api"
+	"github.com/ecosafety/lec.letter.initial.service/internal/utils"
 
 	"github.com/google/uuid"
 	"time"
