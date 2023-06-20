@@ -30,14 +30,14 @@ func mapResearchInfoToReq(_ context.Context, info *domain.LetterResearchInfo,
 
 func mapResearchInfoToDomain(_ context.Context, req *pb.ResearchInfoData) (*domain.LetterResearchInfo, error) {
 	return &domain.LetterResearchInfo{
-		FullProtocol:            &req.FullProtocol,
-		Sponsor:                 req.Sponsor,
-		Contractor:              req.Contractor,
-		DrugName:                req.DrugName,
-		Manufacturer:            req.Manufacturer,
-		MainResearcher:          req.MainResearcher,
-		MainResearcherInitials:  req.MainResearcherInitials,
-		ChairmanWithoutSurname:  req.ChairmanWithoutSurname,
-		ChairmanInitialsTitleTo: req.ChairmanInitialsTitleTo,
+		FullProtocol:            req.GetFullProtocol(),
+		Sponsor:                 req.GetSponsor(),
+		Contractor:              req.GetContractor(),
+		DrugName:                req.GetDrugName(),
+		Manufacturer:            req.GetManufacturer(),
+		MainResearcher:          req.GetMainResearcher(),
+		MainResearcherInitials:  req.GetMainResearcherInitials(),
+		ChairmanWithoutSurname:  req.GetChairmanWithoutSurname(),
+		ChairmanInitialsTitleTo: req.GetChairmanInitialsTitleTo(),
 	}, nil
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/ecosafety/lec.letter.initial.service/internal/gateway/document_generator"
 
 	"github.com/ecosafety/lec.letter.initial.service/configs"
 	"github.com/ecosafety/lec.letter.initial.service/internal/app"
@@ -59,6 +60,11 @@ func main() {
 	pgObjectiveStorage := pg_objective.NewStorage(dbPool)
 	pgPurposeStorage := pg_purpose.NewStorage(dbPool)
 
+	generatorC, connErr := document_generator.New(ctx, c.GeneratorHost)
+	if connErr != nil {
+		log.Fatalln("can't create the connect with module service due to:", connErr.Error())
+	}
+
 	// Init Service
 	newService := service.NewService(
 		ctx,
@@ -68,6 +74,7 @@ func main() {
 		objective_memory.NewCache(),
 		pgPurposeStorage,
 		purpose_memory.NewCache(),
+		generatorC,
 	)
 
 	// Init Application
