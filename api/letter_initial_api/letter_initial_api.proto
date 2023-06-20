@@ -26,6 +26,7 @@ service LetterInitialService {
   rpc ChangePurposeOrderNumber (ChangePurposeOrderNumberRequest) returns (ChangePurposeOrderNumberResponse) {}
   rpc DeletePurpose (DeletePurposeRequest) returns (DeletePurposeResponse) {}
 
+
   rpc GenerateLetter (GenerateLetterRequest) returns (GenerateLetterResponse) {}
 }
 
@@ -249,8 +250,9 @@ message ResearchInfoData {
 }
 
 message DocumentData {
-  int32 orderNumber = 1;
-  string title = 2;
+  string id = 1;
+  int32 orderNumber = 2;
+  string title = 3;
 }
 
 message OrganizationHeaderData {

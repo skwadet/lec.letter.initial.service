@@ -13,5 +13,7 @@ type Letter struct {
 
 	// Not db mapped!
 	LetterResearchInfo *LetterResearchInfo
-	DocumentList       []*Document
+	Documents          []*Document
+	Objectives         []*Objective
+	Purposes           []*Purpose
 }

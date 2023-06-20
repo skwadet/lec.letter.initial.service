@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"github.com/ecosafety/lec.letter.initial.service/internal/gateway/document_generator"
 
 	"github.com/ecosafety/lec.letter.initial.service/internal/storage/memory/letter_memory"
 	"github.com/ecosafety/lec.letter.initial.service/internal/storage/memory/objective_memory"
@@ -21,11 +22,13 @@ type Service struct {
 	objectiveMemCache *objective_memory.Cache
 	purposeStorage    *pg_purpose.Storage
 	purposeMemCache   *purpose_memory.Cache
+	generatorC        *document_generator.Client
 }
 
 func NewService(ctx context.Context, letterStorage *pg_letter.Storage, letterMemCache *letter_memory.Cache,
 	objectiveStorage *pg_objective.Storage, objectiveMemCache *objective_memory.Cache,
-	purposeStorage *pg_purpose.Storage, purposeMemCache *purpose_memory.Cache) *Service {
+	purposeStorage *pg_purpose.Storage, purposeMemCache *purpose_memory.Cache,
+	generatorC *document_generator.Client) *Service {
 
 	letters, err := letterStorage.GetList(ctx)
 	if err != nil {
@@ -52,5 +55,6 @@ func NewService(ctx context.Context, letterStorage *pg_letter.Storage, letterMem
 		objectiveMemCache: objectiveMemCache,
 		purposeStorage:    purposeStorage,
 		purposeMemCache:   purposeMemCache,
+		generatorC:        generatorC,
 	}
 }

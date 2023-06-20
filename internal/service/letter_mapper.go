@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	gateway "github.com/ecosafety/lec.letter.initial.service/internal/pb/document_generator_api"
 
 	pb "github.com/ecosafety/lec.letter.initial.service/internal/pb/letter_initial_api"
 
@@ -53,5 +54,49 @@ func mapLetterResponseDataToProto(_ context.Context,
 		Letter:     letter,
 		Objectives: objectives,
 		Purposes:   purposes,
+	}, nil
+}
+
+func mapLetterToReq(_ context.Context, letter *domain.Letter) (*gateway.LetterData, error) {
+	return &gateway.LetterData{
+		Id:             letter.Id.String(),
+		SubmissionId:   letter.SubmissionId.String(),
+		CreatedAt:      utils.InnerFormatTime(letter.CreatedAt),
+		AdditionalInfo: letter.AdditionalInfo,
+	}, nil
+}
+
+func mapFullLetterToReq(ctx context.Context, letter *domain.Letter) (*gateway.FullLetterData, error) {
+	mLetter, mlErr := mapLetterToReq(ctx, letter)
+	if mlErr != nil {
+		return nil, mlErr
+	}
+
+	mObjectives, oErr := mapObjectiveListToReq(ctx, letter.Objectives)
+	if oErr != nil {
+		return nil, oErr
+	}
+
+	mPurposes, pErr := mapPurposeListToReq(ctx, letter.Purposes)
+	if pErr != nil {
+		return nil, pErr
+	}
+
+	mDocuments, dErr := mapDocumentListToReq(ctx, letter.Documents)
+	if dErr != nil {
+		return nil, dErr
+	}
+
+	mInfo, iErr := mapResearchInfoToReq(ctx, letter.LetterResearchInfo, letter.CreatedAt)
+	if iErr != nil {
+		return nil, iErr
+	}
+
+	return &gateway.FullLetterData{
+		Letter:                 mLetter,
+		LetterResearchInfoData: mInfo,
+		Objectives:             mObjectives,
+		Purposes:               mPurposes,
+		DocumentList:           mDocuments,
 	}, nil
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/ecosafety/lec.letter.initial.service/internal/utils"
 
+	gateway "github.com/ecosafety/lec.letter.initial.service/internal/pb/document_generator_api"
 	pb "github.com/ecosafety/lec.letter.initial.service/internal/pb/letter_initial_api"
 
 	"github.com/ecosafety/lec.letter.initial.service/pkg/domain"
@@ -39,6 +40,31 @@ func mapObjectiveListToProto(ctx context.Context, objectives []*domain.Objective
 
 func mapObjectiveToProto(_ context.Context, objective *domain.Objective) (*pb.ObjectiveData, error) {
 	return &pb.ObjectiveData{
+		Id:          objective.Id.String(),
+		OrderNumber: int32(objective.OrderNumber),
+		LetterId:    objective.LetterId.String(),
+		Title:       objective.Title,
+		CreatedAt:   utils.InnerFormatTime(objective.CreatedAt),
+	}, nil
+}
+
+func mapObjectiveListToReq(ctx context.Context, objectives []*domain.Objective) ([]*gateway.ObjectiveData, error) {
+	var mappedObjectives []*gateway.ObjectiveData
+
+	for _, objective := range objectives {
+		mappedObjective, mErr := mapObjectiveToReq(ctx, objective)
+		if mErr != nil {
+			return nil, mErr
+		}
+
+		mappedObjectives = append(mappedObjectives, mappedObjective)
+	}
+
+	return mappedObjectives, nil
+}
+
+func mapObjectiveToReq(_ context.Context, objective *domain.Objective) (*gateway.ObjectiveData, error) {
+	return &gateway.ObjectiveData{
 		Id:          objective.Id.String(),
 		OrderNumber: int32(objective.OrderNumber),
 		LetterId:    objective.LetterId.String(),

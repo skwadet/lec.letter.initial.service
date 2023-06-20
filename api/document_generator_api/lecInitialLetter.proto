@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+option csharp_namespace = "Core.LecInitialLetter";
+option go_package = "github.com/ecosafety/lec.letter.initial.service/api/document_generator_api;document_generator_api";
+
+package lecInitialLetter;
+
+service GenerateLecInitialLetter {
+  rpc Generate (GenerateLetterRequest) returns (GenerateLetterResponse);
+}
+
+message LetterResearchInfoData {
+  optional string direction = 1;
+  optional string greetings = 2;
+  optional string welcome = 3;
+  optional string sponsor = 4;
+  optional string contractOrganization = 5;
+  optional string manufacturer = 6;
+  optional string drugName = 7;
+  optional string mainResearcher = 8;
+  optional string sign = 9;
+}
+
+message DocumentData {
+  int32 orderNumber = 1;
+  string title = 2;
+}
+
+message OrganizationHeaderData {
+  string credits = 1;
+  string logoUrl = 2;
+}
+
+message PurposeData {
+  string id = 1;
+  int32 orderNumber = 2;
+  string letterId = 3;
+  string title = 4;
+  string createdAt = 5;
+}
+
+message ObjectiveData {
+  string id = 1;
+  int32 orderNumber = 2;
+  string letterId = 3;
+  string title = 4;
+  string createdAt = 5;
+}
+
+message LetterData {
+  string id = 1;
+  string submissionId = 2;
+  string createdAt = 3;
+  optional string additionalInfo = 4;
+}
+
+message FullLetterData {
+  LetterData letter = 1;
+  LetterResearchInfoData letterResearchInfoData = 3;
+  repeated ObjectiveData objectives = 4;
+  repeated PurposeData purposes = 5;
+  repeated DocumentData documentList = 6;
+}
+
+message GenerateLetterRequest {
+  FullLetterData letter = 1;
+  OrganizationHeaderData organizationHeader = 2;
+}
+
+message GenerateLetterResponse {
+  string status = 1;
+  bytes file = 2;
+}

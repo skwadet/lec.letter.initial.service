@@ -1,0 +1,43 @@
+package service
+
+import (
+	"context"
+	"github.com/ecosafety/lec.letter.initial.service/internal/utils"
+	"time"
+
+	gateway "github.com/ecosafety/lec.letter.initial.service/internal/pb/document_generator_api"
+	pb "github.com/ecosafety/lec.letter.initial.service/internal/pb/letter_initial_api"
+
+	"github.com/ecosafety/lec.letter.initial.service/pkg/domain"
+)
+
+func mapResearchInfoToReq(_ context.Context, info *domain.LetterResearchInfo,
+	createdAt time.Time) (*gateway.LetterResearchInfoData, error) {
+	mCreatedAt := utils.OuterFormatDate(createdAt)
+
+	return &gateway.LetterResearchInfoData{
+		Direction:            info.GetDirection(mCreatedAt),
+		Greetings:            info.GetGreeting(),
+		Welcome:              info.GetWelcomePart(),
+		Sponsor:              info.GetSponsor(),
+		ContractOrganization: info.GetContractOrganization(),
+		DrugName:             info.GetDrug(),
+		Manufacturer:         info.GetManufacturer(),
+		MainResearcher:       info.GetMainResearcher(),
+		Sign:                 info.GetSign(),
+	}, nil
+}
+
+func mapResearchInfoToDomain(_ context.Context, req *pb.ResearchInfoData) (*domain.LetterResearchInfo, error) {
+	return &domain.LetterResearchInfo{
+		FullProtocol:            &req.FullProtocol,
+		Sponsor:                 req.Sponsor,
+		Contractor:              req.Contractor,
+		DrugName:                req.DrugName,
+		Manufacturer:            req.Manufacturer,
+		MainResearcher:          req.MainResearcher,
+		MainResearcherInitials:  req.MainResearcherInitials,
+		ChairmanWithoutSurname:  req.ChairmanWithoutSurname,
+		ChairmanInitialsTitleTo: req.ChairmanInitialsTitleTo,
+	}, nil
+}

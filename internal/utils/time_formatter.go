@@ -15,5 +15,5 @@ func OuterFormatTime(timeToFormat time.Time) string {
 }
 
 func OuterFormatDate(timeToFormat time.Time) string {
-	return timeToFormat.Format("02.01.2006 г.")
+	return timeToFormat.Format("02.01.2006")
 }
