@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"github.com/ecosafety/lec.letter.initial.service/internal/utils"
 	"github.com/google/uuid"
 
 	pb "github.com/ecosafety/lec.letter.initial.service/internal/pb/letter_initial_api"
@@ -38,9 +39,9 @@ func (s *Service) GenerateLetter(ctx context.Context, req *pb.GenerateLetterRequ
 		return nil, pErr
 	}
 
-	letter.Documents = docs
-	letter.Objectives = objectives
-	letter.Purposes = purposes
+	letter.Documents = utils.SortDocuments(docs)
+	letter.Objectives = utils.SortObjectives(objectives)
+	letter.Purposes = utils.SortPurposes(purposes)
 	letter.LetterResearchInfo = letterResearchInfo
 
 	mappedLetter, mlErr := mapFullLetterToReq(ctx, letter)
